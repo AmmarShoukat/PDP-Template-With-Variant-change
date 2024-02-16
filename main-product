@@ -1,0 +1,519 @@
+{% if section.settings['custom-color'] != blank %}
+  {% style %}
+    .nws-pdp-template-content .nws-pdp-template-form .nws-pdp-template-info .heading-nws {
+      color: {{section.settings.custom-color}};
+    }
+    .nws-pdp-submit {
+      background-color: {{section.settings.custom-color}};
+    }
+    .nws-pdp-submit:hover {
+      color: {{section.settings.custom-color}};
+      border-color: {{section.settings.custom-color}};
+    }
+    .nws-video-icon {
+    	background: {{section.settings.custom-color}};
+    }
+    .main-heading h2, .main-heading h1 {
+        color: {{section.settings.custom-color}};
+    }
+    .main-heading h2::after, .main-heading h1::after {
+    	background: {{section.settings.custom-color}};
+    }
+    .nws-ultimate-watch .nws-ultimate-watch-desc ul li {
+    	color: {{section.settings.custom-color}};
+    }
+    .nws-ultimate-watch .nws-ultimate-watch-desc ul li::before {
+    	box-shadow: inset 0 0 0 2px {{section.settings.custom-color}};
+    }
+    .nws-faq .main-heading-faq p a {
+    	color: {{section.settings.custom-color}};
+    }
+    .nws-faq .main-heading-faq h2, .nws-faq .main-heading-faq h1 {
+    	color: {{section.settings.custom-color}};
+    }
+  {% endstyle %}
+{% endif %}
+<!-- nws-pdp-template -->
+{% comment %}
+  <div class="nws-container">
+    {%- render 'kt_breadcrumb' -%}
+  </div>
+{% endcomment %}
+<div
+  class="nws-pdp-template"
+  {% if section.settings['section-color'] != blank %}
+    style="background-color:{{ section.settings.section-color }};"
+  {% endif %}
+>
+  <div class="container">
+    <div class="nws-pdp-template-content row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="nws-pdp-template-gallery">
+          {% if product.variants.size > 0 %}
+            <div class="nws-padding">
+              {% for variant in product.variants %}
+                <div class="nws-variant-img nws-position-rel" data-image-id="{{ variant.id }}">
+                  <img
+                    src="{{ variant.image.src | img_url: "master" }}"
+                    alt="{{ variant.title }}"
+                    class="nws-position-abs"
+                    data-image-id="{{ variant.id }}"
+                    width="auto"
+                    height="auto"
+                    loading="lazy"
+                  >
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+          <div class="nws-pdp-template-oneImagePhoto clearfix">
+            {% for media in product.media %}
+              <div class="nws-pdp-slide-main nws-pdp-feature-img">
+                {% if media.media_type == 'image' %}
+                  <div
+                    class="nws-pdp-slide product-img--main__image"
+                    onmousemove="zoom(event)"
+                    style="background-image: url('{{ media.src | product_img_url: 'master' }}')"
+                  >
+                    <img
+                      width="auto"
+                      height="auto"
+                      loading="lazy"
+                      src="{{ media.src | product_img_url: '1000x' }}"
+                      width="100%"
+                      height="100%"
+                      alt="{{ media.alt }}"
+                    >
+                  </div>
+                {% endif %}
+                {% if media.media_type == 'video' %}
+                  <div class="nws-pdp-slide product-video">
+                    <video
+                      width="100%"
+                      height="100%"
+                      controls
+                      loop
+                      muted
+                      playsinline
+                      poster="{{ media.preview_image.url | replace: '_1_large', '_1_720x720' }}"
+                    >
+                      {% for source in media.sources %}
+                        <source src="{{ source.url }}" type="{{ source.content_type }}">
+                      {% endfor %}
+                    </video>
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          <div class="nws-pdp-template-oneImageThumb clearfix">
+            {% for media in product.media %}
+              <div class="nws-pdp-slide-main nws-all-pdp-img">
+                {% if media.media_type == 'image' %}
+                  <div class="nws-pdp-slide">
+                    <img
+                      width="auto"
+                      height="auto"
+                      loading="lazy"
+                      src="{{ media.src | product_img_url: '120x' }}"
+                      width="100%"
+                      height="100%"
+                      alt="{{ media.alt }}"
+                    >
+                  </div>
+                {% endif %}
+                {% if media.media_type == 'video' %}
+                  <div class="nws-pdp-slide product-video">
+                    <video
+                      width="100%"
+                      height="100%"
+                      loop
+                      muted
+                      playsinline
+                      preload="auto"
+                      poster="{{ media.preview_image.url | replace: '_1_large', '_1_720x720' }}"
+                    >
+                      {% for source in media.sources %}
+                        <source src="{{ source.url }}" type="{{ source.content_type }}">
+                      {% endfor %}
+                    </video>
+                    <svg width="20" height="20" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g opacity="1">
+                      <rect x="0.189941" y="0.929688" width="64" height="64" rx="32" fill="black"></rect>
+                      <path d="M24.1899 24.4617C24.1899 22.9077 25.8859 21.9477 27.2189 22.7467L41.3319 31.2147C42.6259 31.9917 42.6259 33.8677 41.3319 34.6447L27.2189 43.1127C25.8859 43.9127 24.1899 42.9527 24.1899 41.3977V24.4617Z" fill="white"></path>
+                      </g>
+                    </svg>
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12" id="buy-now">
+        <div class="nws-pdp-template-form">
+          <div class="nws-pdp-template-info">
+            <h1 class="heading-nws">{{ product.title }}</h1>
+            <div class="nws-pdp-rating">
+            <div
+              class="yotpo bottomLine"
+              data-product-id="{{ card_product.id }}"
+            ></div>
+            </div>
+          </div>
+          <div class="nws-divider"></div>
+          {% if section.settings.desc != blank %}
+            <div class="nws-prd-desc">{{ section.settings.desc }}</div>
+          {% endif %}
+          <form
+            class="product-form product-form-product-template"
+            method="post"
+            action="/cart/add"
+            data-productid="{{ product.id }}"
+            id="product-form-{{ product.variants.first.id }}"
+            accept-charset="UTF-8"
+            enctype="multipart/form-data"
+            novalidate="novalidate"
+            data-product-form=""
+          >
+            <input type="hidden" name="form_type" value="product">
+            <input
+              class="product-variant-id"
+              name="id"
+              type="hidden"
+              value="{{ product.variants[1].id }}"
+            >
+            <input type="hidden" name="utf8" value="✓">
+
+            {%- assign current_variant = product.selected_or_first_available_variant -%}
+            {% comment %}
+              {% if product.description != blank %}
+                <div class="nws-description-item-short">{{ product.description  }}</div>
+              {% endif %}
+            {% endcomment %}
+            {%- if product.has_only_default_variant -%}
+              <input
+                id="nws-variant-id"
+                class="product-form__variants"
+                data-productid="{{ product.id }}"
+                type="hidden"
+                value="{{ current_variant.id }}"
+                name="id"
+              >
+            {% else %}
+              <div class="nws-label-load">
+                <label class="nws-variant-label">
+                  {%- for option in product.options_with_values -%}
+                    {% if forloop.index > 1 %}/{% endif %}
+                    {{ option.name }}
+                  {% endfor -%}
+                  :
+                </label>
+                <div class="nws-load-price">
+                  <span class="load-price"> </span>
+                </div>
+              </div>
+              <div class="nws-pdp-variant">
+                {% if product.variants.size > 1 %}
+                  {% for variant in product.variants %}
+                    <div
+                      class="nws-select-variant {% if variant.available == false %}disabled{% endif %}"
+                      data-variant-id="{{ variant.id }}"
+                      data-img-id="{{ variant.id }}"
+                      data-price="{{ variant.price | money }}"
+                      data-compare-price="{{ variant.compare_at_price| money }}"
+                      change-data="{{- variant.metafields.custom.per_load_price -}}"
+                    >
+                      <span></span>
+                      <input
+                        type="radio"
+                        class="nws-radio-box"
+                        data-val="{{ variant.title }}"
+                        value="{{ variant.id }}"
+                        name="variant-selection"
+                        data-variant-id="{{ variant.id }}"
+                      >
+                      {{- variant.title }}
+                    </div>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            {% endif %}
+            <div class="nws-quantity-box">
+              <label for="qty-{{section.id}}">QUANTITY</label>
+              <div class="nws-pdp-quantity quantity js-item-quantity item-quantity--{{ section.id }}">
+                <div class="nws-quantity-col">
+                  <div class="control">
+                    <a class="btn-number qtyminus quantity-minus" href="#"></a>
+                    <input
+                      type="text"
+                      data-step="1"
+                      name="quantity"
+                      data-min="1"
+                      value="1"
+                      id="qty-{{section.id}}"
+                      class="input-qty input-text qty {{settings.atc_btn_rounded | replace: 'btn-', ''}}"
+                      size="4"
+                      pattern="[0-9]*"
+                    >
+                    <a class="btn-number qtyplus quantity-plus" href="#"></a>
+                  </div>
+                </div>
+                <div class="product__price">
+                  {% include 'nws-product-price', variant: current_variant, product: product %}
+                </div>
+              </div>
+            </div>
+            <div class="nws-pdp-submit-div">
+              {% if product.available %}
+                <input id="nws-pdp-submit" type="submit" value="Add To Cart" class="btn cls-chr nws-pdp-submit">
+              {% else %}
+                <input type="button" value="Sold Out" class="btn nws-pdp-submit" disabled="disabled">
+              {% endif %}
+            </div>
+            <p class="nws-new-jersey">Shipping from New Jersey</p>
+          </form>
+          <div class="nws-divider"></div>
+          {% if section.settings.img != blank %}
+            <div class="nws-money-back-gurente">
+              <img
+                src="{{ section.settings.img | img_url: 'master' }}"
+                alt="Here is Image"
+                width="auto"
+                height="auto"
+              >
+              <div class="nws-gurente-body">
+                {% if section.settings.title != blank %}
+                  <h3>{{ section.settings.title }}</h3>
+                {% endif %}
+                {% if section.settings.content != blank %}
+                  <div class="nws-gurente-content">{{ section.settings.content }}</div>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+          {% if product.metafields.custom.product_benefits != blank %}
+            <div class="nws-prd-benefit">{{ product.metafields.custom.product_benefits | metafield_tag }}</div>
+          {% endif %}
+          {% assign customLink = product.metafields.custom.description_video %}
+          {% if customLink != blank or product.metafields.custom.description_text != blank %}
+            <div class="nws-pdp-template-description">
+              {% if customLink != blank %}
+                {% assign clnLinkCheck = customLink | replace: '/', ' ' %}
+                {% assign clnLink = customLink
+                  | replace: 'https://youtu.be/', ''
+                  | replace: 'http://youtu.be/', ''
+                  | replace: 'https://www.youtube.com/watch?v=', ''
+                  | replace: 'http://www.youtube.com/watch?v=', ''
+                  | replace: 'https://youtube.com/watch?v=', ''
+                  | replace: 'http://youtube.com/watch?v=', ''
+                  | replace: 'https://www.vimeo.com/', ''
+                  | replace: 'https://vimeo.com/', ''
+                  | replace: 'youtu.be/', ''
+                  | replace: 'www.youtube.com/watch?v=', ''
+                  | replace: 'youtube.com/watch?v=', ''
+                  | replace: 'www.vimeo.com/', ''
+                  | replace: 'vimeo.com/', ''
+                %}
+                <div class="nws-pdp-video-dp-new">
+                  {% if clnLinkCheck contains 'www.youtube.com'
+                    or clnLinkCheck contains 'youtube.com'
+                    or clnLinkCheck contains 'youtu.be'
+                  %}
+                    {% assign video-url = 'https://www.youtube.com/watch?v=' | append: clnLink %}
+                  {% endif %}
+                  {% if clnLinkCheck contains 'www.vimeo.com' or clnLinkCheck contains 'vimeo.com' %}
+                    {% assign video-url = 'https://vimeo.com/' | append: clnLink %}
+                  {% endif %}
+                  <div class="nws-popup-video-img nws-popup-video-up" href="{{video-url}}">
+                    <span class="nws-video-icon">
+                      <svg width="18" height="21" viewBox="0 0 18 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.5 9.63398C18.1667 10.0189 18.1667 10.9811 17.5 11.366L1.75 20.4593C1.08333 20.8442 0.250001 20.3631 0.250001 19.5933L0.250002 1.40673C0.250002 0.636933 1.08334 0.155807 1.75 0.540708L17.5 9.63398Z" fill="white"/></path>
+                      </svg>
+                    </span>
+                    {% if clnLinkCheck contains 'www.youtube.com'
+                      or clnLinkCheck contains 'youtube.com'
+                      or clnLinkCheck contains 'youtu.be'
+                    %}
+                      <img
+                        src="https://img.youtube.com/vi/{{ clnLink }}/sddefault.jpg"
+                        width="auto"
+                        height="auto"
+                        loading="lazy"
+                      >
+                    {% endif %}
+                    {% if clnLinkCheck contains 'www.vimeo.com' or clnLinkCheck contains 'vimeo.com' %}
+                      <img src="https://vumbnail.com/{{ clnLink }}.jpg" width="auto" height="auto" loading="lazy">
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
+              <div class="nws-description-item nws-need-space">
+                <h3 class="nws-description-item-title">Description</h3>
+                <div class="nws-description-item-body">
+                  <div class="nws-description-item-body-inner">
+                    {{ product.metafields.custom.description_text | metafield_tag }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if product.metafields.custom.features_benefits_list != blank %}
+            <div class="nws-pdp-template-description nws-pdp-temp-desp">
+              <div class="nws-description-item">
+                <h3 class="nws-description-item-title">Features & Benefits</h3>
+                <div class="nws-description-item-body nws-benefits-list">
+                  {{ product.metafields.custom.features_benefits_list }}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if product.metafields.custom.ingredients != blank %}
+            <div class="nws-pdp-template-description nws-pdp-temp-desp">
+              <div class="nws-description-item">
+                <h3 class="nws-description-item-title">Ingredients</h3>
+                <div class="nws-description-item-body">{{ product.metafields.custom.ingredients | metafield_tag }}</div>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if product.metafields.custom.how_to_use != blank %}
+            <div class="nws-pdp-template-description nws-pdp-temp-desp">
+              <div class="nws-description-item">
+                <h3 class="nws-description-item-title">How To Use</h3>
+                <div class="nws-description-item-body nws-benefits-list">
+                  {{ product.metafields.custom.how_to_use | metafield_tag }}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if product.metafields.custom.twice_benefits != blank %}
+            <div class="nws-pdp-template-description nws-pdp-temp-desp">
+              <div class="nws-description-item">
+                <h3 class="nws-description-item-title">Benefits</h3>
+                <div class="nws-description-item-body">
+                  {{ product.metafields.custom.twice_benefits | metafield_tag }}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+          {% assign customLink = product.metafields.custom.works_video %}
+          {% if customLink != blank or product.metafields.custom.how_it_works_text != blank %}
+            <div class="nws-pdp-template-description nws-pdp-temp-desp">
+              <div class="nws-description-item">
+                <h3 class="nws-description-item-title">How it Works</h3>
+                <div class="nws-description-item-body">
+                  <div class="nws-description-item-body-inner">
+                    {{ product.metafields.custom.how_it_works_text | metafield_tag }}
+                  </div>
+                  {% if customLink != blank %}
+                    {% assign clnLinkCheck = customLink | replace: '/', ' ' %}
+                    {% assign clnLink = customLink
+                      | replace: 'https://youtu.be/', ''
+                      | replace: 'http://youtu.be/', ''
+                      | replace: 'https://www.youtube.com/watch?v=', ''
+                      | replace: 'http://www.youtube.com/watch?v=', ''
+                      | replace: 'https://youtube.com/watch?v=', ''
+                      | replace: 'http://youtube.com/watch?v=', ''
+                      | replace: 'https://www.vimeo.com/', ''
+                      | replace: 'https://vimeo.com/', ''
+                      | replace: 'youtu.be/', ''
+                      | replace: 'www.youtube.com/watch?v=', ''
+                      | replace: 'youtube.com/watch?v=', ''
+                      | replace: 'www.vimeo.com/', ''
+                      | replace: 'vimeo.com/', ''
+                    %}
+                    <div class="nws-pdp-video-dp-new">
+                      {% if clnLinkCheck contains 'www.youtube.com'
+                        or clnLinkCheck contains 'youtube.com'
+                        or clnLinkCheck contains 'youtu.be'
+                      %}
+                        {% assign video-url = 'https://www.youtube.com/watch?v=' | append: clnLink %}
+                      {% endif %}
+                      {% if clnLinkCheck contains 'www.vimeo.com' or clnLinkCheck contains 'vimeo.com' %}
+                        {% assign video-url = 'https://vimeo.com/' | append: clnLink %}
+                      {% endif %}
+                      <div class="nws-popup-video-img nws-popup-video-up" href="{{video-url}}">
+                        <span class="nws-video-icon">
+                          <svg
+                            width="18"
+                            height="21"
+                            viewBox="0 0 18 21"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path d="M17.5 9.63398C18.1667 10.0189 18.1667 10.9811 17.5 11.366L1.75 20.4593C1.08333 20.8442 0.250001 20.3631 0.250001 19.5933L0.250002 1.40673C0.250002 0.636933 1.08334 0.155807 1.75 0.540708L17.5 9.63398Z" fill="white"/></path>
+                          </svg>
+                        </span>
+                        {% if clnLinkCheck contains 'www.youtube.com'
+                          or clnLinkCheck contains 'youtube.com'
+                          or clnLinkCheck contains 'youtu.be'
+                        %}
+                          <img
+                            src="https://img.youtube.com/vi/{{ clnLink }}/sddefault.jpg"
+                            width="auto"
+                            height="auto"
+                            loading="lazy"
+                          >
+                        {% endif %}
+                        {% if clnLinkCheck contains 'www.vimeo.com' or clnLinkCheck contains 'vimeo.com' %}
+                          <img src="https://vumbnail.com/{{ clnLink }}.jpg" width="auto" height="auto" loading="lazy">
+                        {% endif %}
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end nws-pdp-template -->
+{% schema %}
+{
+  "name": "NWS - PDP Template",
+  "settings": [
+    {
+      "type": "color",
+      "id": "section-color",
+      "label": "Section BG Color"
+    },
+    {
+      "type": "color",
+      "id": "custom-color",
+      "label": "Page Color"
+    },
+    {
+      "type": "richtext",
+      "id": "desc",
+      "label": "Descption"
+    },
+    {
+      "type": "header",
+      "content": "MONEY BACK GUARANTEE"
+    },
+    {
+      "type": "image_picker",
+      "id": "img",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    }
+  ]
+}
+{% endschema %}
